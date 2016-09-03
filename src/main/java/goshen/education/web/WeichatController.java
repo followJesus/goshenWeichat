@@ -100,6 +100,17 @@ public class WeichatController extends Weichat {
 		// return echostr;
 //		------------------ 验证开发者  ------------------
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 //		------------------ 接收微信消息  ------------------
 		// xml格式的消息数据
 		String respXml = null;
@@ -139,6 +150,9 @@ public class WeichatController extends Weichat {
 					System.out.println("-----------------other--------------- ");
 				}
 				
+				System.out.println("\n\n");
+				System.out.println("-----------------requestMap--------------- "+requestMap.toString());
+				System.out.println("\n\n");
 				
 
 		return respXml;

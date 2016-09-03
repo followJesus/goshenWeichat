@@ -18,9 +18,11 @@ import goshen.education.utils.Tools;
  * 微信
  */
 public class Weichat {
-private String accessToken = "oGUPkr0XC3s7JI0VnfspEXuPqWRIvgKDU--tkXac9LfCj9sp6DKKfb1rDuCsevKwa_44bcHFY4x1fstTavv_r56CsffuC5WDyecRfjLs6AkeBvZHLOP7lW_B3w2_mzOLDHIcAAAIMN";
+private String accessToken = "";
 	private  URL url;
 	private  HttpURLConnection httpURLConnection;
+	public static final String APPID ="wxc1dac85ae7496586";
+	public static final String SECRET ="87ad859bf5237b1da89399453aefa2ae";
 	
 //	RNJm9LTbpazPD8Swd00eExw8i58nhHXz8vzFtxuYXGQ  消息加密密钥
 	
@@ -57,16 +59,20 @@ private String accessToken = "oGUPkr0XC3s7JI0VnfspEXuPqWRIvgKDU--tkXac9LfCj9sp6D
 	}
 
 
-	
-	public static void main100(String[] args) {
-		
+	public static void main(String[] args) {
 		Weichat weichat = new Weichat();
-		weichat.menus();
+		System.out.println("************accessToken= "+weichat.accessToken());
+	}
+	
+	public static void main77(String[] args){
+		
+		
+//		weichat.menus();
 		
 //		whoareyou("oI3PGt6tW328DGa8sK_gJPsrr8Pw");
 		
 
-//		System.out.println("************accessToken= "+weichat.accessToken());
+		
 		
 //		
 //		System.out.println(customers(accessToken));
@@ -176,7 +182,12 @@ SubMenu[] subMenus1 = {subMenu11,subMenu12,subMenu13,subMenu14};
 		SubMenu subMenu31 = new SubMenu();//子菜单 3.1
 		subMenu31.setName("注册 - 加入");
 		subMenu31.setType("view");
-		subMenu31.setUrl("http://wx.goshencn.com/weichatLogin");
+		
+		String redirectUrl = "http://wx.goshencn.com/weichatLogin";
+		String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+APPID+"&redirect_uri="+redirectUrl+"&response_type=code&scope=snsapi_base&state=haliluya#wechat_redirect";
+		subMenu31.setUrl(url);
+		
+		
 		
 		SubMenu subMenu32 = new SubMenu();//子菜单 3.2
 		subMenu32.setName("我的账户");
@@ -212,7 +223,7 @@ SubMenu[] subMenus3 = {subMenu31,subMenu32,subMenu33,subMenu34};
 		
 		String urlStr=" https://api.weixin.qq.com/cgi-bin/menu/create?access_token="+accessToken;
 		
-		Token token = SendURLPost(context,urlStr);
+		WeichatReturnCodes token = SendURLPost(context,urlStr);
 		
 		String accessTokenIsInvaild = token.getErrcode();
 		if ("42001".equals(accessTokenIsInvaild)) {//如果accessToken无效，重新获取
@@ -229,12 +240,11 @@ SubMenu[] subMenus3 = {subMenu31,subMenu32,subMenu33,subMenu34};
 	 * 获取accessToken
 	 */
 	public  String accessToken(){
-		String appid ="wxc1dac85ae7496586";
-		String secret="87ad859bf5237b1da89399453aefa2ae";
 		
-		String urlStr="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret;	
+		
+		String urlStr="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+APPID+"&secret="+APPID;	
 
-		Token token = SendURLPost(appid,urlStr);
+		WeichatReturnCodes token = SendURLPost(APPID,urlStr);
 			
 	System.out.println("--------获取token时的错误码-----7200 正常------getExpires_in------ "+token.getExpires_in());
 	
@@ -246,7 +256,7 @@ SubMenu[] subMenus3 = {subMenu31,subMenu32,subMenu33,subMenu34};
 	 * @param articleId
 	 * 发送信息
 	 */
-	public  Token SendURLPost(String context,String urlStr)  {
+	public  WeichatReturnCodes SendURLPost(String context,String urlStr)  {
 		 StringBuilder sb = null;
 //		 String content = "";
 	  try {
@@ -277,7 +287,7 @@ SubMenu[] subMenus3 = {subMenu31,subMenu32,subMenu33,subMenu34};
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-	  return Tools.fromJson(sb.toString(), Token.class);
+	  return Tools.fromJson(sb.toString(), WeichatReturnCodes.class);
 	 	 }
 	
 	
